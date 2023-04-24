@@ -1,20 +1,20 @@
 package com.like_magic.pokemonapp.data.repository
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
-import com.like_magic.pokemonapp.data.database.AppDatabase
+import com.like_magic.pokemonapp.data.database.PokemonDao
 import com.like_magic.pokemonapp.data.mappers.Mapper
-import com.like_magic.pokemonapp.data.network.ApiFactory
+import com.like_magic.pokemonapp.data.network.ApiService
 import com.like_magic.pokemonapp.domain.PokemonRepository
 import com.like_magic.pokemonapp.domain.entity.PokemonNameEntity
+import javax.inject.Inject
 
 
-class PokemonRepositoryImpl(application: Application):PokemonRepository {
-
-    private val dataBase = AppDatabase.getInstance(application).pokemonDao()
-    private val apiFactory = ApiFactory.apiService
-    private val mapper = Mapper()
+class PokemonRepositoryImpl @Inject constructor(
+    private val dataBase:PokemonDao,
+    private val mapper:Mapper,
+    private val apiFactory:ApiService
+):PokemonRepository {
 
     override suspend fun loadData() {
         dataBase.insertPokemonList(

@@ -3,16 +3,18 @@ package com.like_magic.pokemonapp.presentation
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.like_magic.pokemonapp.data.repository.PokemonRepositoryImpl
 import com.like_magic.pokemonapp.domain.usecases.GetPokemonNameListUseCase
 import com.like_magic.pokemonapp.domain.usecases.LoadDataUseCase
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PokemonViewModel(application: Application): AndroidViewModel(application) {
-    private val repository = PokemonRepositoryImpl(application)
-    private val loadDataUseCase = LoadDataUseCase(repository)
-    private val getPokemonNameList = GetPokemonNameListUseCase(repository)
+class PokemonViewModel @Inject constructor(
+    application: Application,
+    private val loadDataUseCase:LoadDataUseCase,
+    getPokemonNameList:GetPokemonNameListUseCase
+): AndroidViewModel(application) {
+
     private val scope = viewModelScope
 
     val listPokemon = getPokemonNameList()

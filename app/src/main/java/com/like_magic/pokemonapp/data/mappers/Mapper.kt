@@ -4,8 +4,9 @@ import com.like_magic.pokemonapp.data.database.PokemonNameDbModel
 import com.like_magic.pokemonapp.data.network.model.PokemonListDto
 import com.like_magic.pokemonapp.data.network.model.PokemonNameDto
 import com.like_magic.pokemonapp.domain.entity.PokemonNameEntity
+import javax.inject.Inject
 
-class Mapper {
+class Mapper @Inject constructor() {
 
     fun mapDbModelToPokemonNameEntity(pokemonNameDbModel: PokemonNameDbModel) =
         PokemonNameEntity(pokemonNameDbModel.name, pokemonNameDbModel.url)
