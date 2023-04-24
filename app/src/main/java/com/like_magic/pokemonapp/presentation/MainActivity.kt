@@ -1,4 +1,4 @@
-package com.like_magic.pokemonapp
+package com.like_magic.pokemonapp.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
