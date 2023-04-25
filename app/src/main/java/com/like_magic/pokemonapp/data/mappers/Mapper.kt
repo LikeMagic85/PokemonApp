@@ -35,12 +35,16 @@ class Mapper @Inject constructor() {
         PokemonDbModel(
             pokemonEntityDto.id,
             pokemonEntityDto.name,
-            pokemonEntityDto.types.map {
-              it.type.name + " "
-            }.toString(),
+            pokemonEntityDto.types[0].type.name,
             pokemonEntityDto.weight,
             pokemonEntityDto.height,
-            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${pokemonEntityDto.id}"
+            "$BASE_IMG_URL${pokemonEntityDto.id}.png"
         )
+
+    companion object {
+
+        const val BASE_IMG_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/"
+
+    }
 
 }

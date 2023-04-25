@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">PokemonApp</string>
+    <string name="height_label">HEIGHT: </string>
+    <string name="weight_label">WEIGHT: </string>
+    <string name="types_label">TYPE: </string>
 </resources>

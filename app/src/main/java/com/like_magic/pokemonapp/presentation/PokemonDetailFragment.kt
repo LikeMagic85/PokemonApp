@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.like_magic.pokemonapp.PokemonApp
 import com.like_magic.pokemonapp.databinding.FragmentPokemonDetailBinding
 import com.like_magic.pokemonapp.domain.entity.PokemonEntity
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -55,10 +56,24 @@ class PokemonDetailFragment:Fragment() {
                 renderData(it)
             }
         }
+        setUpBackBtn()
+    }
+
+    private fun setUpBackBtn() {
+        binding.backBtn.setOnClickListener {
+            requireActivity().supportFragmentManager
+                .popBackStack()
+        }
     }
 
     private fun renderData(pokemonEntity: PokemonEntity){
-        binding.name.text = pokemonEntity.name
+        with(binding){
+            name.text = pokemonEntity.name
+            Picasso.get().load(pokemonEntity.imgUrl).into(pokemonImg)
+            heightValue.text = pokemonEntity.height.toString()
+            weightValue.text = pokemonEntity.weight.toString()
+            typesValue.text = pokemonEntity.type
+        }
     }
 
     private fun parseArgs(): Int {
