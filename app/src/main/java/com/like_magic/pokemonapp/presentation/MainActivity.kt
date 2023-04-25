@@ -1,15 +1,16 @@
 package com.like_magic.pokemonapp.presentation
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.like_magic.pokemonapp.PokemonApp
+import com.like_magic.pokemonapp.R
 import com.like_magic.pokemonapp.databinding.ActivityMainBinding
 import com.like_magic.pokemonapp.presentation.adapter.PokemonNameAdapter
 import javax.inject.Inject
 
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -31,11 +32,23 @@ class MainActivity : ComponentActivity() {
         viewModel.listPokemon.observe(this){
             pokemonAdapter.submitList(it)
         }
+        pokemonAdapter.onItemClickListener = {
+            val id = it.substringAfter("pokemon/").substringBefore("/").toInt()
+            launchPokemonDetailFragment(id)
+        }
     }
 
     private fun initRecycler(){
         pokemonAdapter = PokemonNameAdapter()
         binding.mainRv.adapter = pokemonAdapter
+    }
+
+    private fun launchPokemonDetailFragment(id:Int){
+        supportFragmentManager
+            .beginTransaction()
+            .addToBackStack(null)
+            .add(R.id.main_container, PokemonDetailFragment.newInstance(id))
+            .commit()
     }
 
 }

@@ -6,6 +6,7 @@ import com.like_magic.pokemonapp.data.database.PokemonDao
 import com.like_magic.pokemonapp.data.mappers.Mapper
 import com.like_magic.pokemonapp.data.network.ApiService
 import com.like_magic.pokemonapp.domain.PokemonRepository
+import com.like_magic.pokemonapp.domain.entity.PokemonEntity
 import com.like_magic.pokemonapp.domain.entity.PokemonNameEntity
 import javax.inject.Inject
 
@@ -28,5 +29,19 @@ class PokemonRepositoryImpl @Inject constructor(
                 mapper.mapDbModelToPokemonNameEntity(it)
             }
         }
+    }
+
+    override fun getPokemon(id:Int): LiveData<PokemonEntity> {
+        return dataBase.getPokemon(id).map {
+            mapper.mapPokemonDbModelToPokemonEntity(it)
+        }
+    }
+
+    override suspend fun loadPokemon(id:Int){
+        dataBase.insertPokemon(
+            mapper.mapPokemonEntityDtoToPokemonDbModel(
+                apiFactory.getPokemon(id)
+            )
+        )
     }
 }

@@ -13,4 +13,10 @@ interface PokemonDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPokemonList(pokemonList: List<PokemonNameDbModel>)
+
+    @Query("SELECT * FROM pokemon_entity_list WHERE id == :id")
+    fun getPokemon(id:Int): LiveData<PokemonDbModel>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPokemon(pokemon: PokemonDbModel)
 }

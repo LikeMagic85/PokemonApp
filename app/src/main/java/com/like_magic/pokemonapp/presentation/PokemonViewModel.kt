@@ -1,19 +1,21 @@
 package com.like_magic.pokemonapp.presentation
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.like_magic.pokemonapp.domain.usecases.GetPokemonNameListUseCase
+import com.like_magic.pokemonapp.domain.usecases.GetPokemonUseCase
 import com.like_magic.pokemonapp.domain.usecases.LoadDataUseCase
+import com.like_magic.pokemonapp.domain.usecases.LoadPokemonUseCase
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PokemonViewModel @Inject constructor(
-    application: Application,
     private val loadDataUseCase:LoadDataUseCase,
-    getPokemonNameList:GetPokemonNameListUseCase
-): AndroidViewModel(application) {
+    getPokemonNameList:GetPokemonNameListUseCase,
+    private val getPokemonUseCase: GetPokemonUseCase,
+    private val loadPokemonUseCase: LoadPokemonUseCase
+): ViewModel() {
 
     private val scope = viewModelScope
 
@@ -24,6 +26,11 @@ class PokemonViewModel @Inject constructor(
             loadDataUseCase()
         }
     }
+
+    suspend fun loadPokemon(id:Int){
+        loadPokemonUseCase(id)
+    }
+    fun getPokemon(id:Int) = getPokemonUseCase(id)
 
     override fun onCleared() {
         super.onCleared()
