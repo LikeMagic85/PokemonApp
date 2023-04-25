@@ -25,7 +25,7 @@ class PokemonNameAdapter
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
         val pokemon = getItem(position)
-        holder.binding.name.text = pokemon.name
+        holder.binding.name.text = pokemon.name.uppercase()
         holder.itemView.setOnClickListener{
             onItemClickListener?.invoke(pokemon.url)
         }

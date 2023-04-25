@@ -1,4 +1,4 @@
-package com.like_magic.pokemonapp.data.database
+package com.like_magic.pokemonapp.data.database.dbmodels
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

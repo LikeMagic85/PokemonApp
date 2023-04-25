@@ -5,6 +5,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.like_magic.pokemonapp.data.database.dbmodels.PokemonDbModel
+import com.like_magic.pokemonapp.data.database.dbmodels.PokemonNameDbModel
 
 @Dao
 interface PokemonDao {
@@ -15,7 +17,7 @@ interface PokemonDao {
     suspend fun insertPokemonList(pokemonList: List<PokemonNameDbModel>)
 
     @Query("SELECT * FROM pokemon_entity_list WHERE id == :id")
-    fun getPokemon(id:Int): LiveData<PokemonDbModel>
+    fun getPokemon(id:Int): LiveData<PokemonDbModel?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPokemon(pokemon: PokemonDbModel)

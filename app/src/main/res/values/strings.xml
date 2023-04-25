@@ -3,4 +3,6 @@
     <string name="height_label">HEIGHT: </string>
     <string name="weight_label">WEIGHT: </string>
     <string name="types_label">TYPE: </string>
+    <string name="connection_false">Problems with internet connection</string>
+    <string name="no_data">No data</string>
 </resources>

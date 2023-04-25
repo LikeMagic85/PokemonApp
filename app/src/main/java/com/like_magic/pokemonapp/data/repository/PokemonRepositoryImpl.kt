@@ -31,7 +31,7 @@ class PokemonRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getPokemon(id:Int): LiveData<PokemonEntity> {
+    override fun getPokemon(id:Int): LiveData<PokemonEntity?> {
         return dataBase.getPokemon(id).map {
             mapper.mapPokemonDbModelToPokemonEntity(it)
         }

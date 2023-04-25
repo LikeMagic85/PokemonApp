@@ -3,6 +3,7 @@ package com.like_magic.pokemonapp.presentation
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.like_magic.pokemonapp.PokemonApp
 import com.like_magic.pokemonapp.R
 import com.like_magic.pokemonapp.databinding.ActivityMainBinding
@@ -14,6 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+    private lateinit var viewModel:PokemonViewModel
     private lateinit var pokemonAdapter:PokemonNameAdapter
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
@@ -26,12 +28,26 @@ class MainActivity : AppCompatActivity() {
         component.inject(this)
         setContentView(binding.root)
         initRecycler()
-        val viewModel = ViewModelProvider(
+        viewModel = ViewModelProvider(
             this,
-            viewModelFactory)[PokemonViewModel::class.java]
-        viewModel.listPokemon.observe(this){
+            viewModelFactory
+        )[PokemonViewModel::class.java]
+        observeViewModel()
+        setOnItemClickListener()
+    }
+
+    private fun observeViewModel() {
+        viewModel.isOnline.observe(this) {
+            if (!it) {
+                Snackbar.make(binding.root, R.string.connection_false, Snackbar.LENGTH_LONG).show()
+            }
+        }
+        viewModel.listPokemon.observe(this) {
             pokemonAdapter.submitList(it)
         }
+    }
+
+    private fun setOnItemClickListener() {
         pokemonAdapter.onItemClickListener = {
             val id = it.substringAfter("pokemon/").substringBefore("/").toInt()
             launchPokemonDetailFragment(id)
@@ -50,6 +66,7 @@ class MainActivity : AppCompatActivity() {
             .add(R.id.main_container, PokemonDetailFragment.newInstance(id))
             .commit()
     }
+
 
 }
 

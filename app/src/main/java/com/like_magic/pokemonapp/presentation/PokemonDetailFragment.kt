@@ -4,11 +4,15 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.like_magic.pokemonapp.PokemonApp
+import com.like_magic.pokemonapp.R
+import com.like_magic.pokemonapp.data.network.ConnectivityChecker
 import com.like_magic.pokemonapp.databinding.FragmentPokemonDetailBinding
 import com.like_magic.pokemonapp.domain.entity.PokemonEntity
 import com.squareup.picasso.Picasso
@@ -51,12 +55,28 @@ class PokemonDetailFragment:Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val id = parseArgs()
         lifecycleScope.launch {
-            viewModel.loadPokemon(id)
+            if(ConnectivityChecker().isOnline(requireActivity().application)){
+                viewModel.loadPokemon(id)
+            }
             viewModel.getPokemon(id).observe(viewLifecycleOwner){
-                renderData(it)
+                if(it?.name != null){
+                    renderData(it)
+                }
+                else{
+                    hideLabels()
+                    Snackbar.make(binding.root, R.string.no_data, Snackbar.LENGTH_LONG).show()
+                }
             }
         }
         setUpBackBtn()
+    }
+
+    private fun hideLabels() {
+        with(binding) {
+            heightLabel.visibility = INVISIBLE
+            weightLabel.visibility = INVISIBLE
+            typesLabel.visibility = INVISIBLE
+        }
     }
 
     private fun setUpBackBtn() {
@@ -68,7 +88,7 @@ class PokemonDetailFragment:Fragment() {
 
     private fun renderData(pokemonEntity: PokemonEntity){
         with(binding){
-            name.text = pokemonEntity.name
+            name.text = pokemonEntity.name?.uppercase()
             Picasso.get().load(pokemonEntity.imgUrl).into(pokemonImg)
             heightValue.text = pokemonEntity.height.toString()
             weightValue.text = pokemonEntity.weight.toString()

@@ -10,8 +10,9 @@ interface PokemonRepository {
 
     suspend fun loadData()
 
-    fun getPokemon(id:Int):LiveData<PokemonEntity>
+    fun getPokemon(id:Int):LiveData<PokemonEntity?>
 
     suspend fun loadPokemon(id:Int)
+
 
 }
