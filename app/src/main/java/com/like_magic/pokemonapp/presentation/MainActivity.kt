@@ -3,11 +3,13 @@ package com.like_magic.pokemonapp.presentation
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.like_magic.pokemonapp.PokemonApp
 import com.like_magic.pokemonapp.R
 import com.like_magic.pokemonapp.databinding.ActivityMainBinding
 import com.like_magic.pokemonapp.presentation.adapter.PokemonNameAdapter
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         )[PokemonViewModel::class.java]
         observeViewModel()
         setOnItemClickListener()
+        loadMorePokemon()
     }
 
     private fun observeViewModel() {
@@ -65,6 +68,14 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack(null)
             .add(R.id.main_container, PokemonDetailFragment.newInstance(id))
             .commit()
+    }
+
+    private fun loadMorePokemon(){
+        binding.nextPageBtn.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.loadNextPage()
+            }
+        }
     }
 
 

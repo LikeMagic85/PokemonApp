@@ -108,7 +108,7 @@ class PokemonDetailFragment:Fragment() {
 
     companion object {
 
-        private const val POKEMON_ID = "pokemon_url"
+        private const val POKEMON_ID = "pokemon_id"
 
         fun newInstance(id:Int) = PokemonDetailFragment().apply {
             arguments = Bundle().apply {

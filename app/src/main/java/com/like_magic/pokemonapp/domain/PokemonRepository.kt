@@ -14,5 +14,6 @@ interface PokemonRepository {
 
     suspend fun loadPokemon(id:Int)
 
+    suspend fun loadMorePokemon()
 
 }

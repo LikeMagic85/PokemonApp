@@ -9,6 +9,7 @@ import com.like_magic.pokemonapp.data.network.ConnectivityChecker
 import com.like_magic.pokemonapp.domain.usecases.GetPokemonNameListUseCase
 import com.like_magic.pokemonapp.domain.usecases.GetPokemonUseCase
 import com.like_magic.pokemonapp.domain.usecases.LoadDataUseCase
+import com.like_magic.pokemonapp.domain.usecases.LoadMorePokemonUseCase
 import com.like_magic.pokemonapp.domain.usecases.LoadPokemonUseCase
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ class PokemonViewModel @Inject constructor(
     getPokemonNameList:GetPokemonNameListUseCase,
     private val getPokemonUseCase: GetPokemonUseCase,
     private val loadPokemonUseCase: LoadPokemonUseCase,
+    private val loadMorePokemonUseCase: LoadMorePokemonUseCase,
     application: Application
 ): ViewModel() {
 
@@ -46,6 +48,10 @@ class PokemonViewModel @Inject constructor(
     }
 
     fun getPokemon(id:Int) = getPokemonUseCase(id)
+
+    suspend fun loadNextPage(){
+        loadMorePokemonUseCase()
+    }
 
     override fun onCleared() {
         super.onCleared()

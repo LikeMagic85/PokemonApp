@@ -44,4 +44,15 @@ class PokemonRepositoryImpl @Inject constructor(
             )
         )
     }
+
+    private suspend fun getLinkToNextPage():String =
+        apiFactory.getPokemonList().next
+
+    override suspend fun loadMorePokemon() {
+        dataBase.insertPokemonList(
+            mapper.mapPokemonListDtoToListDbModel(
+                apiFactory.loadMorePokemon(getLinkToNextPage())
+            )
+        )
+    }
 }
